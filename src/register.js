@@ -5,7 +5,7 @@ import { CONSTANT,homeState,loginState } from './reducer/reducer';
 import store from './reducer/reducer';
 import LoginBox from './containers/LoginBox';
 import RegisterBox from './containers/RegisterBox';
-import Antd from './components/Antd';
+
 //css
 const h4Style = {
     textAlign:'center',
@@ -14,8 +14,7 @@ const h4Style = {
 
 const App = () => (
     <div style={h4Style}>
-        <LoginBox></LoginBox>
-        <Antd></Antd>
+        <RegisterBox></RegisterBox>
     </div>
 );
 

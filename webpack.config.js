@@ -19,8 +19,8 @@ module.exports = {
                 exclude: /node_modules/,
                 loaders: 'babel-loader',
                 query: {
-                    presets: ['stage-0','es2015', 'react'],
-                    plugins:[['import',{libraryName:'antd',style:false}]]
+                    presets: [ 'react','es2015','stage-0'],
+                    plugins: [["import", { libraryName: "antd", style: false}]]
                 }
             },
             {

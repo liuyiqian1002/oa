@@ -1,0 +1,31 @@
+import React,{Component} from 'react';
+import { Form, Icon, Input, Button, Checkbox } from 'antd';
+const FormItem = Form.Item;
+
+
+const Register = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('register')
+    };
+    return (<Form onSubmit={handleSubmit} className="login-form">
+            <FormItem>
+                <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
+            </FormItem>
+            <FormItem>
+                <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+            </FormItem>
+            <FormItem>
+                <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Confirm " />
+            </FormItem>
+            <FormItem>
+                <Button type="primary" htmlType="submit" className="login-form-button">
+                    注 册
+                </Button>
+                Or <a href="">现在登录!</a>
+            </FormItem>
+        </Form>
+    );
+}
+
+export default Register;
