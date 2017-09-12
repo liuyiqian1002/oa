@@ -1,21 +1,23 @@
 import React,{ Component } from 'react';
 import ReactDom from 'react-dom';
 import { connect,Provider } from 'react-redux';
-import { CONSTANT,homeState,loginState } from './reducer/reducer';
-import store from './reducer/reducer';
+import store,{collapsed,CONSTANT} from './reducer/reducer';
 import LoginBox from './containers/LoginBox';
 import RegisterBox from './containers/RegisterBox';
+import MenuBox from './containers/MenuBox';
+import HomeLayout from './containers/HomeLayout';
 import Antd from './components/Antd';
+
 //css
 const h4Style = {
-    textAlign:'center',
+    // textAlign:'center',
     height:'100%'
 };
 
 const App = () => (
     <div style={h4Style}>
-        <LoginBox></LoginBox>
-        <Antd></Antd>
+        {/*<LoginBox></LoginBox>*/}
+        <HomeLayout></HomeLayout>
     </div>
 );
 
@@ -25,22 +27,21 @@ const App = () => (
     }
 }*/
 
-function selectHomeState(state,filter) {
-    switch (filter) {
-        case CONSTANT.ISLOGINED:
-            return state.filter(todo=>todo.text)
-        default:
-            return state
-    }
-}
-function select(state) {
+function mapStateToProps(state) {
     return {
         loginState:state.loginState,
-        homeState:selectHomeState(homeState,state.loginState)
+        homeState:state.homeState
+    }
+}
+//映射Redux action到组件属性
+function mapDispatchToProps(dispatch) {
+    return {
+        onClick:dispatch(collapsed(CONSTANT.COLLAPSED))
     }
 }
 
-connect(select)(App);
+
+connect(mapStateToProps,mapDispatchToProps)(App);
 
 ReactDom.render(
     <Provider store={store}>

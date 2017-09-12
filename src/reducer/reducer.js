@@ -4,11 +4,20 @@ import { combineReducers , createStore } from 'redux';
 * 定义类型常量和action创建函数
 * */
 // const ISLOGINED = 'ISLOGINED';
-export const CONSTANT = {ISLOGINED:'ISLOGINED'};
+const CONSTANT = {
+    ISLOGINED:'ISLOGINED',
+    COLLAPSED:'COLLAPSED'
+};
 function toggleLogin() {
     return {
-        type:ISLOGINED,
+        type:CONSTANT.ISLOGINED,
         val:false
+    }
+}
+export function collapsed(colla) {
+    return {
+        type:CONSTANT.COLLAPSED,
+        val:colla
     }
 }
 
@@ -25,14 +34,11 @@ export const loginState = (state = loginInitState,action) => {
     }
 };
 
-const homeInitState = [];
+const homeInitState = [{collapsed:false}];
 export const homeState = (state = homeInitState,action)=>{
     switch (action.type){
-        case CONSTANT.ISLOGINED:
-            return [...state,
-                {
-                    text:'demo'
-                }];
+        case CONSTANT.COLLAPSED:
+            return [Object.assign({},state[0],{collapsed:!state[0].collapsed})];
         default:
             return homeInitState;
     }

@@ -20,7 +20,7 @@ module.exports = {
                 loaders: 'babel-loader',
                 query: {
                     presets: [ 'react','es2015','stage-0'],
-                    plugins: [["import", { libraryName: "antd", style: false}]]
+                    plugins: ["transform-class-properties",["import", { libraryName: "antd", style: false}]]
                 }
             },
             {

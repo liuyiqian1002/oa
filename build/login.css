@@ -12,3 +12,14 @@
 .login-form-button {
     width: 100%;
 }
+.logo {
+    height: 32px;
+    background: #333;
+    border-radius: 6px;
+    margin: 16px;
+    color: #eeeeee;
+    font-size: 15px;
+    line-height: 32px;
+    padding-left: 30px;
+    overflow: hidden;
+}
