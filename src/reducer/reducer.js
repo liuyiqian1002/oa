@@ -4,9 +4,10 @@ import { combineReducers , createStore } from 'redux';
 * 定义类型常量和action创建函数
 * */
 // const ISLOGINED = 'ISLOGINED';
-const CONSTANT = {
+export const CONSTANT = {
     ISLOGINED:'ISLOGINED',
-    COLLAPSED:'COLLAPSED'
+    COLLAPSED:'COLLAPSED',
+    TASKKEY:'TASKKEY'
 };
 function toggleLogin() {
     return {
@@ -34,11 +35,14 @@ export const loginState = (state = loginInitState,action) => {
     }
 };
 
-const homeInitState = [{collapsed:false}];
+const homeInitState = {collapsed:false,currentTask:0};
 export const homeState = (state = homeInitState,action)=>{
+    let tmpState = state;
     switch (action.type){
         case CONSTANT.COLLAPSED:
-            return [Object.assign({},state[0],{collapsed:!state[0].collapsed})];
+            return Object.assign({},tmpState,{collapsed:!tmpState.collapsed});
+        case CONSTANT.TASKKEY:
+            return Object.assign({},tmpState,{currentTask:action.key});
         default:
             return homeInitState;
     }

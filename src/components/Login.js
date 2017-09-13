@@ -27,12 +27,12 @@ const Login = () => {
                 </FormItem>
                 <FormItem>
                     <Checkbox style = {{float:'left'}}>记住密码</Checkbox>
-                    <a className="login-form-forgot" href="">忘记密码</a>
+                    {/*<a className="login-form-forgot" href="">忘记密码</a>*/}
                     <br/>
                     <Button type="primary" htmlType="submit" className="login-form-button" loading>
                         登 录
                     </Button>
-                    Or <a href="register.html">现在注册<Icon type="right"/></a>
+                    {/*Or <a href="register.html">现在注册<Icon type="right"/></a>*/}
 
                 </FormItem>
         </Form>
