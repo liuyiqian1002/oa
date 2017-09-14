@@ -15,10 +15,10 @@ function toggleLogin() {
         val:false
     }
 }
-export function collapsed(colla) {
+export function collapsed(bool) {
     return {
         type:CONSTANT.COLLAPSED,
-        val:colla
+        val:bool
     }
 }
 
@@ -35,15 +35,17 @@ export const loginState = (state = loginInitState,action) => {
     }
 };
 
-const homeInitState = {collapsed:false,currentTask:0};
+const homeInitState = {collapsed:false,currentTask:0,key:'1'};
 export const homeState = (state = homeInitState,action)=>{
     let tmpState = state;
     switch (action.type){
         case CONSTANT.COLLAPSED:
             return Object.assign({},tmpState,{collapsed:!tmpState.collapsed});
         case CONSTANT.TASKKEY:
-            return Object.assign({},tmpState,{currentTask:action.key});
+            console.log('currentTask:'+action.val.currentTask);
+            return Object.assign({},tmpState,{currentTask:action.val.currentTask});
         default:
+            console.log('default')
             return homeInitState;
     }
 };

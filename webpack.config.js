@@ -36,6 +36,7 @@ module.exports = {
         historyApiFallback:true,
         hot:true,
         inline:true,
-        port:3003
+        port:3003,
+        host:'10.1.1.66'
     }
 };

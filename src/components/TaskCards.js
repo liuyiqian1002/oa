@@ -19,15 +19,14 @@ class TaskCards extends React.Component{
         // const oldState = store.getState();
          return (
             <div style={{width:'90%',textAlign:'center'}}>
-                {this.props.finished &&
+                {this.props.finished ===true &&
                 <Row gutter={16}>
                     {arr.map((value,index) => {
-                        if(!this.props.finished){return;}
                         return (
                             <div key={index}>
                                 <Col span={4}>
                                     <a>
-                                    <Card  style={{ width: 150 }} className={this.props.finished?'complete':'unfinished'}>
+                                    <Card  style={{ width: 150 }} className={this.props.finished===true?'complete':'unfinished'}>
                                         <div onClick={()=>this.props.handleTask(index,this.props.finished)}>
                                         <p>{value}</p>
                                         <p>Card content</p>
@@ -40,14 +39,14 @@ class TaskCards extends React.Component{
                     <Col span={12} offset={18}/>
                 </Row>}
                 {/*{!this.props.finished && <br/>}*/}
-                <Row gutter={16}><br/>
+                {this.props.finished === false &&
+                <Row gutter={16}>
                     {arr2.map((value,index) => {
-                        if(this.props.finished){return;}
                         return (
-                            <div key={index} onClick={()=>this.props.handleTask(index)}>
+                            <div key={index} onClick={()=>this.props.handleTask(index,this.props.finished)}>
                                 <Col span={4}>
                                     <a>
-                                        <Card bodyStyle={{backgroundColor:'#eee' }} style={{ width: 150 }} className={this.props.finished?'complete':'unfinished'} noHovering>
+                                        <Card bodyStyle={{backgroundColor:'#eee' }} style={{ width: 150 }} className={this.props.finished===true?'complete':'unfinished'} noHovering>
                                             <p>{value}</p>
                                             <p>Card content</p>
                                             <p>Card content</p>
@@ -57,16 +56,16 @@ class TaskCards extends React.Component{
                             </div>)
                     })}
                     <Col span={8}/>
-                </Row>
+                </Row>}
                 {/*<br/>*/}
-                <Row gutter={16}><br/>
+                {this.props.finished === 2 &&
+                <Row gutter={16}>
                     {arr2.map((value,index) => {
-                        if(!this.props.finished){return;}
                         return (
-                            <div key={index} onClick={()=>this.props.handleTask(index)}>
+                            <div key={index} onClick={()=>this.props.handleTask(index,this.props.finished)}>
                                 <Col span={4}>
                                     <a>
-                                        <Card  style={{ width: 150 }} className={this.props.finished?'complete':'unfinished'}>
+                                        <Card  style={{ width: 150 }} className={'noVia'}>
                                             <p>{value}</p>
                                             <p>Card content</p>
                                             <p>Card content</p>
@@ -76,7 +75,7 @@ class TaskCards extends React.Component{
                             </div>)
                     })}
                     <Col span={8}/>
-                </Row>
+                </Row>}
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                 <Pagination defaultCurrent={1} total={50}></Pagination>
             </div>

@@ -26,7 +26,13 @@
 
 .complete{
     border: 1px solid green;
+    color: green;
 }
 .unfinished{
     border: 1px solid red;
+    color: red;
+}
+.noVia{
+    border: 1px solid #49a9ee;
+    color: #49a9ee;
 }
