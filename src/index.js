@@ -14,12 +14,31 @@ const h4Style = {
     height:'100%'
 };
 
-const App = () => (
-    <div style={h4Style}>
-        {/*<LoginBox></LoginBox>*/}
-        <HomeLayout></HomeLayout>
-    </div>
-);
+class App extends React.Component {
+    state = {
+        login:false
+    }
+    handleLogin(bool){
+        this.setState({login:bool});
+    }
+    componentWillMount(){
+        document.cookie='userName=larry';
+        document.cookie='password=123';
+        console.log(document.cookie)
+        if(true){
+            this.setState({login:true})
+        }
+    }
+    render(){
+        return (
+            <div style={h4Style}>
+                {!this.state.login && <LoginBox loginIn = {this.handleLogin.bind(this)}></LoginBox>}
+                {this.state.login && <HomeLayout loginOut = {this.handleLogin.bind(this)}></HomeLayout>}
+            </div>
+        )
+    }
+
+}
 
 /*class App extends React.Component{
     render(){

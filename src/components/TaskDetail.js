@@ -14,10 +14,10 @@ class TaskDetail extends React.Component{
             <div>
                 <Row gutter={16}>
                     <Col span={16} offset={4}>
-                        <Card title={title} style={{ width: '100%' }}>
+                        <Card title={title} extra={this.props.finished?<span style={{color:'green'}}>已完成</span>:<span style={{color:'red'}}>未完成</span>}>
                             <p>{title}</p>
                             <p>{detail}</p>
-                            <p>{detail+' hello'}</p>
+                            <p>{detail+' love'}</p>
                         </Card>
                     </Col>
                 </Row>

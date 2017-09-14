@@ -7,9 +7,9 @@ const divStyle = {
 };
 
 
-const LoginBox = ()=>(
+const LoginBox = (props)=>(
     <div style={divStyle}>
-        <Login/>
+        <Login login ={props.loginIn.bind(this)}/>
     </div>
 )
 
