@@ -26,7 +26,7 @@ class TaskCards extends React.Component{
                             <div key={index}>
                                 <Col span={4}>
                                     <a>
-                                    <Card  style={{ width: 150 }} className={this.props.finished===true?'complete':'unfinished'}>
+                                    <Card  style={{ minWidth: 100,maxWidth:200 }} className={'complete'}>
                                         <div onClick={()=>this.props.handleTask(index,this.props.finished)}>
                                         <p>{value}</p>
                                         <p>Card content</p>
@@ -46,7 +46,7 @@ class TaskCards extends React.Component{
                             <div key={index} onClick={()=>this.props.handleTask(index,this.props.finished)}>
                                 <Col span={4}>
                                     <a>
-                                        <Card bodyStyle={{backgroundColor:'#eee' }} style={{ width: 150 }} className={this.props.finished===true?'complete':'unfinished'} noHovering>
+                                        <Card bodyStyle={{backgroundColor:'#eee' }} style={{ width: 150 }} className={'unfinished'} noHovering>
                                             <p>{value}</p>
                                             <p>Card content</p>
                                             <p>Card content</p>

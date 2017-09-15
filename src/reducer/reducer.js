@@ -35,15 +35,14 @@ export const loginState = (state = loginInitState,action) => {
     }
 };
 
-const homeInitState = {collapsed:false,currentTask:0,key:'1'};
+const homeInitState = {collapsed:false,currentTask:0,key:'1',finished:false};
 export const homeState = (state = homeInitState,action)=>{
     let tmpState = state;
     switch (action.type){
         case CONSTANT.COLLAPSED:
             return Object.assign({},tmpState,{collapsed:!tmpState.collapsed});
         case CONSTANT.TASKKEY:
-            console.log('currentTask:'+action.val.currentTask);
-            return Object.assign({},tmpState,{currentTask:action.val.currentTask});
+            return Object.assign({},tmpState,{currentTask:action.val.currentTask,finished:action.val.finished});
         default:
             console.log('default')
             return homeInitState;

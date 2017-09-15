@@ -4,10 +4,10 @@ import store,{collapsed} from '../reducer/reducer';
 const SubMenu = Menu.SubMenu;
 
 let state = store.getState().homeState[0];
-store.subscribe(function () {
+/*store.subscribe(function () {
     state = store.getState().homeState[0]
     console.log(store.getState())
-});
+});*/
 class Menus extends React.Component{
     /*state = {
         collapsed: false,

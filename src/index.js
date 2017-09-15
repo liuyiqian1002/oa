@@ -27,16 +27,16 @@ class App extends React.Component {
         console.log(document.cookie)
         if(true){
             this.setState({login:true})
-        }
-    }
-    render(){
-        return (
-            <div style={h4Style}>
-                {!this.state.login && <LoginBox loginIn = {this.handleLogin.bind(this)}></LoginBox>}
-                {this.state.login && <HomeLayout loginOut = {this.handleLogin.bind(this)}></HomeLayout>}
-            </div>
-        )
-    }
+}
+}
+render(){
+    return (
+        <div style={h4Style}>
+            {!this.state.login && <LoginBox loginIn = {this.handleLogin.bind(this)}></LoginBox>}
+            {this.state.login && <HomeLayout loginOut = {this.handleLogin.bind(this)}></HomeLayout>}
+        </div>
+    )
+}
 
 }
 
@@ -60,10 +60,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-connect(mapStateToProps,mapDispatchToProps)(App);
+const App1=connect(mapStateToProps)(App);
 
 ReactDom.render(
     <Provider store={store}>
-        <App/>
+        <App1/>
     </Provider>,
     document.getElementById('main'));

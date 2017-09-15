@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { Layout, Menu, Icon ,message, Button } from 'antd';
+import { Layout, Menu, Icon ,message, Button, Breadcrumb } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import TaskCards from '../components/TaskCards'
 import TaskDetail from '../components/TaskDetail'
@@ -16,7 +16,10 @@ const sliderStyle = {
     maxWidth:'240px !important'
 }
 
- const state = store.getState();
+ let state = store.getState();
+store.subscribe(function () {
+    state = store.getState()
+});
 
 class HomeLayout extends React.Component {
     /*componentDidMount(){
@@ -33,19 +36,19 @@ class HomeLayout extends React.Component {
     };
     onClickHandle = (e) => {
         // this.setState(Object.assign({},this.state,{key:e.key,currentTask:0}))
-        store.dispatch({type:CONSTANT.TASKKEY,val:{key:e.key,currentTask:0}})
-        console.log(state.homeState.currentTask)
+        store.dispatch({type:CONSTANT.TASKKEY,val:{key:e.key,currentTask:0,finished:state.homeState.finished}})
+        console.log(state)
     };
     handleTask=(index,bool)=>{
-        // console.log('arg:'+index)
+        // console.log('arg:'+index.toString())
         // this.setState(Object.assign({},this.state,{currentTask:index.toString(),finished:bool}))
-        store.dispatch({type:CONSTANT.TASKKEY,val:{currentTask:index.toString(),key:'1'}})
-        // console.log('store:'+store.getState())
+        store.dispatch({type:CONSTANT.TASKKEY,val:{currentTask:index.toString(),finished:bool}})
+        console.log(store.getState())
 
     };
     onClickBtnHandle=(bool)=>{
-        this.setState(Object.assign({},this.state,{finished:bool}))
-        console.log(this.state.finished)
+        // this.setState(Object.assign({},this.state,{finished:bool}))
+        store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:bool}})
     };
     loginOut=()=>{
         this.props.loginOut(false);
@@ -73,21 +76,29 @@ class HomeLayout extends React.Component {
                         <span onClick={this.loginOut} style={{position:'absolute',top:5,right:30,cursor:'pointer'}}><Icon type="poweroff" style={{fontSize:18,color:'red'}}/></span>
                     </Header>
                     <Content style={{ margin: '24px 16px 0' }}>
-                        {console.log(this.state.key +' '+state.homeState.key+' '+ this.state.currentTask+' '+ state.homeState.currentTask)}
-                        {(this.state.key === '1' || state.homeState.key === '1') && (this.state.currentTask === 0 || state.homeState.currentTask === 0) &&
+                        <Breadcrumb style={{ margin: '12px 0' }}>
+                            <Breadcrumb.Item>我的工作</Breadcrumb.Item>
+                            {state.homeState.currentTask !== 0 && <Breadcrumb.Item>任务 {Number(state.homeState.currentTask)+1}</Breadcrumb.Item>}
+                        </Breadcrumb>
+                        {state.homeState.key === '1' && state.homeState.currentTask === 0 &&
                         <div style={{float:'right'}}>
                             <Button type='danger'  onClick={()=>this.onClickBtnHandle(false)}>未完成</Button>
                             <br/>
                             <Button type='default'  onClick={()=>this.onClickBtnHandle(2)}><span style={{color:'#49a9ee'}}>未通过</span></Button>
                             <br/>
-                            <Button type='default' onFocus={(e)=>{e.target.style.backgroundColor='#green'}} onClick={()=>this.onClickBtnHandle(true)}><span style={{color:'green'}}>已完成</span></Button>
+                            <Button type='default'
+                                    onFocus={(e)=>{e.target.style.backgroundColor='#green'}}
+                                    onClick={()=>this.onClickBtnHandle(true)}>
+                                <span style={{color:'green'}}>已完成</span>
+                            </Button>
                             <br/>
                             <br/>
                             <AddTask/>
                         </div>}
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                            {(this.state.key === '1' || state.homeState.key === '1') && this.state.currentTask === 0 && <TaskCards finished={this.state.finished} handleTask = {this.handleTask} style={{ width: 120 }}></TaskCards>}
-                            {(this.state.currentTask !== 0 && (this.state.key === '1' || state.homeState.key === '1')) && <TaskDetail finished={this.state.finished} value={this.state.currentTask} style={{ width: 120 }}></TaskDetail>}
+                            {console.log(state.homeState.key === '1' && state.homeState.currentTask === 0)}
+                            {state.homeState.key === '1' && state.homeState.currentTask === 0 && <TaskCards finished={state.homeState.finished} handleTask = {this.handleTask} style={{ width: 120 }}></TaskCards>}
+                            {(state.homeState.currentTask !== 0 && state.homeState.key === '1') && <TaskDetail finished={state.homeState.finished} value={state.homeState.currentTask} style={{ width: 120 }}></TaskDetail>}
                             {this.state.key === '2' && <ApprovalBox/>}
                             {this.state.key === '3' && <AddTask/>}
                         </div>
