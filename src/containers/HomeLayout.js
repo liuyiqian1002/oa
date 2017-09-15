@@ -84,7 +84,7 @@ class HomeLayout extends React.Component {
                         <div style={{float:'right'}}>
                             <Button type='danger'  onClick={()=>this.onClickBtnHandle(false)}>未完成</Button>
                             <br/>
-                            <Button type='default'  onClick={()=>this.onClickBtnHandle(2)}><span style={{color:'#49a9ee'}}>未通过</span></Button>
+                            <Button type='default' onClick={()=>this.onClickBtnHandle(2)}><span style={{color:'#49a9ee'}}>未通过</span></Button>
                             <br/>
                             <Button type='default'
                                     onFocus={(e)=>{e.target.style.backgroundColor='#green'}}
