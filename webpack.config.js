@@ -37,6 +37,6 @@ module.exports = {
         hot:true,
         inline:true,
         port:3003,
-        host:'10.1.1.66'
+        host:'10.1.1.254'
     }
 };
