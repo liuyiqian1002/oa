@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import { Link} from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
 
@@ -22,7 +23,7 @@ const Register = () => {
                 <Button type="primary" htmlType="submit" className="login-form-button">
                     注 册
                 </Button>
-                Or <a href="">现在登录!</a>
+                Or <Link to="/login">现在登录!</Link>
             </FormItem>
         </Form>
     );

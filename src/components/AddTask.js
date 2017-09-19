@@ -1,11 +1,16 @@
 import React,{ Component } from 'react';
-import { Button, Form, Input, Radio, Modal } from 'antd';
+import { Button, Form, Input, Radio, Modal, Checkbox } from 'antd';
 const FormItem = Form.Item;
+const CheckboxGroup = Checkbox.Group;
 
 const CollectionCreateForm = Form.create()(
     (props) => {
         const { visible, onCancel, onCreate, form } = props;
         const { getFieldDecorator } = form;
+        const options = ['刘义千','陈龙','吴志豪','刘冲','涂志明','周芬',];
+        const onChange = (values)=>{
+            console.log(values);
+        }
         return (
             <Modal
                 visible={visible}
@@ -25,16 +30,22 @@ const CollectionCreateForm = Form.create()(
                     <FormItem label="工作描述">
                         {getFieldDecorator('description')(<Input type="textarea" />)}
                     </FormItem>
-                    {/*<FormItem className="collection-create-form_last-form-item">
+                    <FormItem className="collection-create-form_last-form-item">
                         {getFieldDecorator('modifier', {
                             initialValue: 'public',
                         })(
                             <Radio.Group>
-                                <Radio value="public">Public</Radio>
-                                <Radio value="private">Private</Radio>
+                                <Radio value="刘义千">刘义千</Radio>
+                                <Radio value="陈龙">陈龙</Radio>
+                                <Radio value="吴志豪">吴志豪</Radio>
+                                <Radio value="刘冲">刘冲</Radio>
+                                <Radio value="涂志明">涂志明</Radio>
+                                <Radio value="周芬">周芬</Radio>
                             </Radio.Group>
                         )}
-                    </FormItem>*/}
+                        <CheckboxGroup options={options} defaultValue={['刘义千']} onChange={onChange} />
+
+                    </FormItem>
                 </Form>
             </Modal>
         );

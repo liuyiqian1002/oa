@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import ReactDom from 'react-dom';
+import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import { connect,Provider } from 'react-redux';
 import store,{collapsed,CONSTANT} from './reducer/reducer';
 import LoginBox from './containers/LoginBox';
@@ -15,26 +16,20 @@ const h4Style = {
 };
 
 class App extends React.Component {
-    state = {
-        login:false
-    }
-    handleLogin(bool){
-        this.setState({login:bool});
-    }
-    componentWillMount(){
-        document.cookie='userName=larry';
-        document.cookie='password=123';
-        console.log(document.cookie)
-        if(true){
-            this.setState({login:true})
-}
-}
 render(){
     return (
-        <div style={h4Style}>
-            {!this.state.login && <LoginBox loginIn = {this.handleLogin.bind(this)}></LoginBox>}
-            {this.state.login && <HomeLayout loginOut = {this.handleLogin.bind(this)}></HomeLayout>}
-        </div>
+        <BrowserRouter>
+            <div style={h4Style}>
+                <switch>
+                    <Route path='/login' exact  component={LoginBox}/>
+                    <Route path='/register' component={RegisterBox} />
+                    <Route path='/home' component={HomeLayout}/>
+                    <Redirect push to="/login" />
+                </switch>
+                {/*<LoginBox loginIn = {this.handleLogin.bind(this)}></LoginBox>
+                <HomeLayout loginOut = {this.handleLogin.bind(this)}></HomeLayout>*/}
+            </div>
+        </BrowserRouter>
     )
 }
 

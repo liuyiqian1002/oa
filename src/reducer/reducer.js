@@ -42,7 +42,7 @@ export const homeState = (state = homeInitState,action)=>{
         case CONSTANT.COLLAPSED:
             return Object.assign({},tmpState,{collapsed:!tmpState.collapsed});
         case CONSTANT.TASKKEY:
-            return Object.assign({},tmpState,{currentTask:action.val.currentTask,finished:action.val.finished});
+            return Object.assign({},tmpState,{key:action.val.key,currentTask:action.val.currentTask,finished:action.val.finished});
         default:
             console.log('default')
             return homeInitState;
