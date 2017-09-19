@@ -11,3 +11,7 @@ oa办公系统
 以全局修改为redux来控制状态，昨天redux状态更新后视图没有更新的原因是
 没有引用connect连接后返回的组件，如App1 = connect(state)(App),
 应使用<App1/>而非<App/>
+
+2017.09.19
+登录，注册，主页等页面使用react-router-dom进行页面跳转控制；
+记住密码逻辑实现
