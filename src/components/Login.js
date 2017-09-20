@@ -20,16 +20,50 @@ const Login = (props) => {
         password = e.target.value;
     };
     const onClickHandle =() =>{
-        if(userName === cookieUtil.get('userName') && password === cookieUtil.get('password') || cookieUtil.get('loginChecked')=='true'){
-            message.success('登录成功！')
-            props.login(true);
-            if(cookieUtil.get('loginChecked')=='true'){
-                cookieUtil.set('userName',userName,new Date().setTime(new Date().getTime()+24*60*60*1000))
-                cookieUtil.set('password',password,new Date().setTime(new Date().getTime()+24*60*60*1000))
-            }
-        }else{
-            message.error('帐号或密码错误')
+        userName = document.getElementById('user').value;
+        password = document.getElementById('pwd').value;
+        if('fetch' in window){
+            fetch('/user/login',{
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:'account='+userName+'&password='+password
+            }).then(response => response.json())
+              .then(data=>{
+                  if(data.state == 100){
+                      message.success(data.msg)
+                      props.login(true,data.result[0]);
+                      if(cookieUtil.get('loginChecked')=='true'){
+                          cookieUtil.set('userName',userName,new Date().setTime(new Date().getTime()+24*60*60*1000))
+                          cookieUtil.set('password',password,new Date().setTime(new Date().getTime()+24*60*60*1000))
+                      }
+                  }else {
+                      message.error(data.msg)
+                  }
+              }).catch(err=>console.log(err))
         }
+        /*if(cookieUtil.get('loginChecked')=='true'){
+            if('larry' === cookieUtil.get('userName') && '123' === cookieUtil.get('password')){
+                message.success('登录成功！')
+                props.login(true);
+                if(cookieUtil.get('loginChecked')=='true'){
+                    cookieUtil.set('userName',userName,new Date().setTime(new Date().getTime()+24*60*60*1000))
+                    cookieUtil.set('password',password,new Date().setTime(new Date().getTime()+24*60*60*1000))
+                }
+            }else{
+                message.error('帐号或密码错误')
+            }
+        }else {
+            if(userName === 'larry' && password === '123'){
+                message.success('登录成功！')
+                props.login(true);
+            }else {
+                message.error('帐号或密码错误')
+            }
+            cookieUtil.unset('userName')
+            cookieUtil.unset('password')
+        }*/
     };
     const onChangeCheckBox =(e) => {
         // if(!cookieUtil.get('loginChecked')){
@@ -46,12 +80,12 @@ const Login = (props) => {
     };
     return (<Form onSubmit={handleSubmit} className="login-form">
                 <FormItem>
-                    <Input onChange = {(e) => onChangeUserName(e)}
+                    <Input id='user' onChange = {(e) => onChangeUserName(e)}
                            prefix={<Icon type="user" style={{ fontSize: 13 }} />}
                            defaultValue={cookieUtil.get('loginChecked')=='true'?cookieUtil.get('userName'):''}  placeholder="Username" />
                 </FormItem>
                 <FormItem>
-                    <Input onChange = {(e) => onChangePassword(e)}
+                    <Input id='pwd' onChange = {(e) => onChangePassword(e)}
                            prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
                            type="password" defaultValue={cookieUtil.get('loginChecked')=='true'?cookieUtil.get('password'):''} placeholder="Password" />
                 </FormItem>
@@ -105,14 +139,15 @@ const cookieUtil = {
         document.cookie = cookieText;
     },
     unset:(name,path,domain,secure)=>{
-        this.set(name,'',new Date(0),path,domain,secure);
+        cookieUtil.set(name,'',new Date(0),path,domain,secure);
     }
 
 };
 console.log(document.cookie)
+/*
 //如果帐号密码不是larry 123就重置为larry 123
 if(cookieUtil.get('userName') !== 'larry' && cookieUtil.get('password') !== '123'){
     console.log('reset')
     cookieUtil.set('userName','larry')
     cookieUtil.set('password','123')
-}
+}*/

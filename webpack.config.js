@@ -1,9 +1,10 @@
 const webpack = require('webpack');
+const path = require('path')
 module.exports = {
     devtool:'eval-source-map',
     entry:__dirname + '/src/index.js',
     output: {
-        path: __dirname + "/build",
+        path:path.resolve("../resources"),
         filename: "index.js"
     },
     plugins: [

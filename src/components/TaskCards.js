@@ -33,7 +33,7 @@ class TaskCards extends React.Component{
                             </div>)
                     })}
                 </Row>}
-                <div>&nbsp;</div>
+                {arr.length%6 !== 0 && <div>&nbsp;</div>}
                 {/*{!this.props.finished && <br/>}*/}
                 {(this.props.finished === 3 || this.props.finished === false) &&
                 <Row gutter={16}>

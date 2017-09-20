@@ -19,13 +19,14 @@ class App extends React.Component {
 render(){
     return (
         <BrowserRouter>
+            {/*<Route path='/'  component={LoginBox}/>*/}
             <div style={h4Style}>
-                <switch>
-                    <Route path='/login' exact  component={LoginBox}/>
-                    <Route path='/register' component={RegisterBox} />
+                    <Route path='/user/page/login' component={LoginBox}/>
+                    <Route path='/register' component={RegisterBox}/>
                     <Route path='/home' component={HomeLayout}/>
-                    <Redirect push to="/login" />
-                </switch>
+                    {/*<Route path='/'  component={LoginBox}/>*/}
+                    {/*<Route path='/register' component={RegisterBox} />
+                    <Route path='/home' component={HomeLayout}/>*/}
                 {/*<LoginBox loginIn = {this.handleLogin.bind(this)}></LoginBox>
                 <HomeLayout loginOut = {this.handleLogin.bind(this)}></HomeLayout>*/}
             </div>

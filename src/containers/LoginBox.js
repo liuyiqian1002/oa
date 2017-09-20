@@ -11,15 +11,15 @@ const divStyle = {
 
 class LoginBox extends React.Component {
     state = {
-        login:false
+        login:false,
+        data:''
     }
-    handleLogin(bool){
-        this.setState({login:bool});
+    handleLogin(bool,data){
+        this.setState({login:bool,data:JSON.stringify(data)});
     }
     render(){
         if(this.state.login){
-            console.log('logined')
-            return (<Redirect push to='/home'/>)
+            return (<Redirect push to={'/home?'+this.state.data}/>)
         }
         return(
         <div style={divStyle}>

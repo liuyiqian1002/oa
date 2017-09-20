@@ -22,19 +22,17 @@ store.subscribe(function () {
     state = store.getState()
 });
 
+// let args = '';
+
 class HomeLayout extends React.Component {
     /*componentDidMount(){
-        this.setState({key:'1'})
+        args = JSON.parse(this.props.location.search.substring(1));
+        console.log(args)
     }*/
     constructor(props){
         super(props)
         // this.handleTask = this.handleTask.bind(this)
     }
-    state = {
-        // key:'1',
-        currentTask:0,
-        finished:false
-    };
     onClickHandle = (e) => {
         // this.setState(Object.assign({},this.state,{key:e.key,currentTask:0}))
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:e.key,currentTask:0,finished:state.homeState.finished}})
@@ -71,9 +69,9 @@ class HomeLayout extends React.Component {
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0,textAlign:'center' }} >
-                        <h1>{this.state.key === '1' && '我的工作'}{this.state.key === '2' && '我的审批'}</h1>
-                        <span style={{position:'absolute',fontSize:16,right:80,top:3}}>larry</span>
-                        <Link to='/login' onClick={this.loginOut} style={{position:'absolute',top:5,right:30,cursor:'pointer'}}><Icon type="poweroff" style={{fontSize:18,color:'red'}}/></Link>
+                        <h1>{state.homeState.key === '1' && '我的工作'}{state.homeState.key === '2' && '我的审批'}</h1>
+                        <span style={{position:'absolute',fontSize:16,right:80,top:3}}>{JSON.parse(this.props.location.search.substring(1)).name}</span>
+                        <Link to='/user/page/login' onClick={this.loginOut} style={{position:'absolute',top:5,right:30,cursor:'pointer'}}><Icon type="poweroff" style={{fontSize:18,color:'red'}}/></Link>
                     </Header>
                     <Content style={{ margin: '24px 16px 0',maxHeight: winHeight-150 }}>
 
@@ -111,7 +109,7 @@ class HomeLayout extends React.Component {
                             {(state.homeState.currentTask !== 0 && state.homeState.key === '1') &&
                             <TaskDetail finished={state.homeState.finished} value={state.homeState.currentTask} style={{ width: 120 }}></TaskDetail>}
                             {state.homeState.key === '2' && <ApprovalBox/>}
-                            {this.state.key === '3' && <AddTask/>}
+                            {state.homeState.key === '3' && <AddTask/>}
                         </div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
