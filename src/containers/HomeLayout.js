@@ -17,18 +17,36 @@ const sliderStyle = {
     maxWidth:'240px !important'
 }
 
- let state = store.getState();
+let state = store.getState();
 store.subscribe(function () {
     state = store.getState()
 });
-
-// let args = '';
+let arrData = [],
+    tmpArrData = [];
 
 class HomeLayout extends React.Component {
     /*componentDidMount(){
         args = JSON.parse(this.props.location.search.substring(1));
         console.log(args)
     }*/
+    componentWillMount(){
+        let str = 'userId='+1;
+        if('fetch' in window){
+            fetch('/task/list',{
+                method:'POST',
+                credentials: "include",
+                headers:{
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:str
+            }).then(response=>response.json())
+                .then(data=>{
+                    console.log(data)
+                    arrData = tmpArrData = data.result;
+                    store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
+                }).catch(err=>console.log(err))
+        }
+    }
     constructor(props){
         super(props)
         // this.handleTask = this.handleTask.bind(this)
@@ -38,17 +56,22 @@ class HomeLayout extends React.Component {
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:e.key,currentTask:0,finished:state.homeState.finished}})
         // console.log(state.homeState.key)
     };
-    handleTask=(index,bool)=>{
+    handleTask=(value)=>{
         // console.log('arg:'+index.toString())
         // this.setState(Object.assign({},this.state,{currentTask:index.toString(),finished:bool}))
-        store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:index.toString(),finished:bool}})
+        store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:value,finished:value.isComplete}})
         // console.log(state.homeState.currentTask+' '+state.homeState.key)
 
     };
     onClickBtnHandle=(bool)=>{
         // this.setState(Object.assign({},this.state,{finished:bool}))
+        tmpArrData = arrData.filter(value=>value.isComplete == bool);
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:bool}})
     };
+    onClickBtnHandleAll=()=>{
+        tmpArrData = arrData;
+        store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
+    }
     loginOut=()=>{
         message.success('退出成功！')
     };
@@ -83,19 +106,19 @@ class HomeLayout extends React.Component {
                         {state.homeState.key === '1' && state.homeState.currentTask !== 0 &&
                         <Breadcrumb style={{ margin: '12px 0' }}>
                             <Breadcrumb.Item>我的工作</Breadcrumb.Item>
-                            <Breadcrumb.Item>任务 {Number(state.homeState.currentTask)+1}</Breadcrumb.Item>
+                            <Breadcrumb.Item>{state.homeState.currentTask.title}</Breadcrumb.Item>
                         </Breadcrumb>}
                         {state.homeState.key === '1' && state.homeState.currentTask === 0 &&
                         <div style={{float:'right'}}>
-                            <Button type='default'  onClick={()=>this.onClickBtnHandle(3)}><span style={{color:'#108ee9'}}>全<span style={{color:'#fff'}}>一</span>部</span></Button>
+                            <Button type='default'  onClick={()=>this.onClickBtnHandleAll()}><span style={{color:'#108ee9'}}>全<span style={{color:'#fff'}}>一</span>部</span></Button>
                             <br/>
-                            <Button type='danger'  onClick={()=>this.onClickBtnHandle(false)}>未完成</Button>
+                            <Button type='danger'  onClick={()=>this.onClickBtnHandle(0)}>未完成</Button>
                             <br/>
                             <Button type='default' onClick={()=>this.onClickBtnHandle(2)}><span style={{color:'#49a9ee'}}>未通过</span></Button>
                             <br/>
                             <Button type='default'
                                     onFocus={(e)=>{e.target.style.backgroundColor='#green'}}
-                                    onClick={()=>this.onClickBtnHandle(true)}>
+                                    onClick={()=>this.onClickBtnHandle(1)}>
                                 <span style={{color:'green'}}>已完成</span>
                             </Button>
                             <br/>
@@ -105,9 +128,9 @@ class HomeLayout extends React.Component {
                         <div style={{ padding: 24, background: '#fff', minHeight: 360, maxHeight: winHeight-150,overflowY:'scroll'}}>
                             {/*{console.log(state.homeState.key === '1' && state.homeState.currentTask !== 0)}*/}
                             {state.homeState.key === '1' && state.homeState.currentTask === 0 &&
-                            <TaskCards finished={state.homeState.finished} handleTask = {this.handleTask} style={{ width: 120 }}></TaskCards>}
+                            <TaskCards arrData={tmpArrData} finished={state.homeState.finished} handleTask = {this.handleTask} style={{ width: 120 }}></TaskCards>}
                             {(state.homeState.currentTask !== 0 && state.homeState.key === '1') &&
-                            <TaskDetail finished={state.homeState.finished} value={state.homeState.currentTask} style={{ width: 120 }}></TaskDetail>}
+                            <TaskDetail taskData={state.homeState.currentTask} finished={state.homeState.finished} value={state.homeState.currentTask} style={{ width: 120 }}></TaskDetail>}
                             {state.homeState.key === '2' && <ApprovalBox/>}
                             {state.homeState.key === '3' && <AddTask/>}
                         </div>

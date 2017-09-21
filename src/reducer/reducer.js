@@ -35,7 +35,7 @@ export const loginState = (state = loginInitState,action) => {
     }
 };
 
-const homeInitState = {collapsed:false,currentTask:0,key:'1',finished:3};
+const homeInitState = {collapsed:false,currentTask:0,key:'1',finished:0};
 export const homeState = (state = homeInitState,action)=>{
     let tmpState = state;
     switch (action.type){

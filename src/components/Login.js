@@ -22,14 +22,16 @@ const Login = (props) => {
     const onClickHandle =() =>{
         userName = document.getElementById('user').value;
         password = document.getElementById('pwd').value;
+        let args = 'account='+userName+'&password='+password;
+        // console.log(args);
         if('fetch' in window){
             fetch('/user/login',{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body:'account='+userName+'&password='+password
-            }).then(response => response.json())
+                body:args
+            }).then((response) => response.json())
               .then(data=>{
                   if(data.state == 100){
                       message.success(data.msg)

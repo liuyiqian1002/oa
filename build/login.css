@@ -24,15 +24,15 @@
     overflow: hidden;
 }
 
-.complete{
+.complete_1{
     border: 1px solid green;
     color: green;
 }
-.unfinished{
+.complete_0{
     border: 1px solid red;
     color: red;
 }
-.noVia{
+.complete_2{
     border: 1px solid #49a9ee;
     color: #49a9ee;
 }

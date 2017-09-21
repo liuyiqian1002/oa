@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Button, Form, Input, Radio, Modal, Checkbox } from 'antd';
+import { Button, Form, Input, Radio, Modal, Checkbox, message } from 'antd';
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
@@ -74,15 +74,37 @@ class AddTask extends React.Component {
             let assignUserId = 1;
             console.log('Received values of form: ', values);
             let str = 'userId='+values.userId+'&assignUserId='+assignUserId+'&title='+values.title+'&content='+values.description+'&remarks='+values.remarks;
+            console.log(str)
+            let context = new FormData();
+            context.append('userId',values.userId);
+            context.append('assignUserId',assignUserId);
+            context.append('title',values.title);
+            context.append('content',values.description);
+            context.append('remarks',values.remarks);
+            // console.log('fd:'+context)
+            /*str = {
+                userId:values.userId,
+                assignUserId:values.assignUserId,
+                title:values.title,
+                content:values.description,
+                remarks:values.remarks,
+            }*/
             if('fetch' in window){
-                fetch('task/add',{
-                    method:'post',
-                    headers:{'Content-Type': 'application/x-www-form-urlencoded'},
+                fetch('/task/add',{
+                    method:'POST',
+                    credentials: "include",
+                    headers:{
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
                     body:str
-                }).then(res=>res.json())
-                    .then(data=>{
+                })/*.then(function(response) {
+                    return response.json();
+                })*/.then(data=>{
                         //处理返回数据
                         console.log(data)
+                    if(data.ok){
+                        message.success('增加成功！');
+                    }
                     }).catch(err=>console.log(err))
             }
             form.resetFields();
