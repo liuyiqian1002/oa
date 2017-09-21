@@ -1,6 +1,9 @@
 oa办公系统
 
-使用webpack，react，ant desidn，react-redux开发，
+前端使用webpack，react，ant desidn，react-redux开发，
+后端同事提供，环境是tomcat7.x，开发语言java，目录结构:
+资源文件：ROOT/resouces/.js | .css
+页面：ROOT/WEB-INF/page/oa/.html
 
 2017.09.14
 由于使用redux过程中遇到redux更新状态后，视图没有刷新的梗，
