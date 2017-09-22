@@ -19,7 +19,7 @@ class LoginBox extends React.Component {
     }
     render(){
         if(this.state.login){
-            return (<Redirect push to={'/home?'+this.state.data}/>)
+            return (<Redirect push to={'/home?'+encodeURI(this.state.data)}/>)
         }
         return(
         <div style={divStyle}>

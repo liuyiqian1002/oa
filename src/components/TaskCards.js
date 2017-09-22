@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { Card ,Row,Col, Pagination} from 'antd';
 
-const cardStyle = {minWidth: 80,maxWidth:150,height:100}
+const cardStyle = {minWidth: 80,maxWidth:150,height:150}
 
 class TaskCards extends React.Component{
     constructor(props){
