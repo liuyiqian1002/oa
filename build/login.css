@@ -24,7 +24,7 @@
     overflow: hidden;
 }
 
-.complete_1{
+.complete_2{
     border: 1px solid green;
     color: green;
 }
@@ -32,7 +32,7 @@
     border: 1px solid red;
     color: red;
 }
-.complete_2{
+.complete_1{
     border: 1px solid #49a9ee;
     color: #49a9ee;
 }

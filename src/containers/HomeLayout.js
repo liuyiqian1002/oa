@@ -32,33 +32,35 @@ class HomeLayout extends React.Component {
         console.log(args)
     }*/
     componentWillMount(){
+        console.log('home:'+document.cookie)
         let str = 'userId='+1;
         function getFetchData(url,arg,acData) {
             if('fetch' in window){
                 fetch(url,{
                     method:'POST',
+                    // mode:'no-cors',
                     credentials: "include",
                     headers:{
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body:arg
-                }).then(response=>response.json())
-                    .then(data=>{
+                }).then((response)=>response.json())
+                    .then((data)=>{
                         if (acData == 1){
                             arrData = tmpArrData = data.result;
+                            store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
                         }else if(acData == 2){
                             assginArrData = tmpArrData = data.result;
                         }else {
                             message.error('错误类型');
                             return ;
                         }
-                        store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
                     }).catch(err=>console.log(err))
             }
         }
-        getFetchData('/task/list',str,1); //1代表我的任务，2代表我分配的任务
+        getFetchData('/task/list',str,1); //1代表我的任务
         str = 'assignUserId='+1;
-        getFetchData('/task/assignList',str,1); //1代表我的任务，2代表我分配的任务
+        getFetchData('/task/assignList',str,2); //2代表我分配的任务
 
     }
     constructor(props){
@@ -66,12 +68,17 @@ class HomeLayout extends React.Component {
         // this.handleTask = this.handleTask.bind(this)
     }
     onClickHandle = (e) => {
-        // this.setState(Object.assign({},this.state,{key:e.key,currentTask:0}))
+        console.log(e)
+        if(e.key === '1'){
+            tmpArrData = arrData;
+        } else if(e.key === '2'){
+            tmpArrData = assginArrData;
+        }
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:e.key,currentTask:0,finished:state.homeState.finished}})
         // console.log(state.homeState.key)
     };
     handleTask=(value)=>{
-        // console.log('arg:'+index.toString())
+        console.log('arg:'+value)
         // this.setState(Object.assign({},this.state,{currentTask:index.toString(),finished:bool}))
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:value,finished:value.isComplete}})
         // console.log(state.homeState.currentTask+' '+state.homeState.key)
@@ -85,8 +92,7 @@ class HomeLayout extends React.Component {
     onClickBtnHandleAll=()=>{
         if(state.homeState.key === '1'){
             tmpArrData = arrData;
-        }
-        else {
+        } else {
             tmpArrData = assginArrData;
         }
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
@@ -138,11 +144,11 @@ class HomeLayout extends React.Component {
                             <br/>
                             <Button type='danger'  onClick={()=>this.onClickBtnHandle(0)}>未完成</Button>
                             <br/>
-                            <Button type='default' onClick={()=>this.onClickBtnHandle(2)}><span style={{color:'#49a9ee'}}>审核中</span></Button>
+                            <Button type='default' onClick={()=>this.onClickBtnHandle(1)}><span style={{color:'#49a9ee'}}>审核中</span></Button>
                             <br/>
                             <Button type='default'
                                     onFocus={(e)=>{e.target.style.backgroundColor='#green'}}
-                                    onClick={()=>this.onClickBtnHandle(1)}>
+                                    onClick={()=>this.onClickBtnHandle(2)}>
                                 <span style={{color:'green'}}>已完成</span>
                             </Button>
                             <br/>

@@ -6,15 +6,8 @@ const RadioGroup = Radio.Group;
 
 const CollectionCreateForm = Form.create()(
     (props) => {
-        const { visible, onCancel, onCreate, form } = props;
+        const { visible, onCancel, onCreate, form, options } = props;
         const { getFieldDecorator } = form;
-        const options = [{ label: '刘义千', value: '1' },
-                         { label: '陈龙', value: '2' },
-                         { label: '吴志豪', value: '3' },
-                         { label: '刘冲', value: '4' },
-                         { label: '涂志明', value: '5' },
-                         { label: '周芬', value: '6' },
-                        ];
         const onChange = (values)=>{
             console.log(values.target.value);
         }
@@ -58,9 +51,32 @@ const CollectionCreateForm = Form.create()(
 class AddTask extends React.Component {
     state = {
         visible: false,
+        userData:[]
     };
     showModal = () => {
-        this.setState({ visible: true });
+        //获取用户列表
+        if('fetch' in window) {
+            fetch('/user/getAll',{
+                method:'POST',
+                credentials: "include",
+                headers:{
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then((response) => response.json())
+                .then(data=>{
+                    //处理返回数据
+                    console.log(data)
+                    const options = [];
+                    data.result.map((value,index)=>{
+                        let temp = {};
+                        temp.label = value.name;
+                        temp.value = String(value.id);
+                        options.push(temp);
+                    })
+                    this.setState({ visible: true,userData: options});
+                    console.log(this.state)
+                }).catch(err=>console.log(err))
+        }
     }
     handleCancel = () => {
         this.setState({ visible: false });
@@ -75,12 +91,12 @@ class AddTask extends React.Component {
             console.log('Received values of form: ', values);
             let str = 'userId='+values.userId+'&assignUserId='+assignUserId+'&title='+values.title+'&content='+values.description+'&remarks='+values.remarks;
             console.log(str)
-            let context = new FormData();
+            /*let context = new FormData();
             context.append('userId',values.userId);
             context.append('assignUserId',assignUserId);
             context.append('title',values.title);
             context.append('content',values.description);
-            context.append('remarks',values.remarks);
+            context.append('remarks',values.remarks);*/
             // console.log('fd:'+context)
             /*str = {
                 userId:values.userId,
@@ -123,6 +139,7 @@ class AddTask extends React.Component {
                     visible={this.state.visible}
                     onCancel={this.handleCancel}
                     onCreate={this.handleCreate}
+                    options={this.state.userData}
                 />
             </div>
         );

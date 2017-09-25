@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 const FormItem = Form.Item;
-
+console.log('login:'+document.cookie);
 
 const Login = (props) => {
     let userName = '';
@@ -27,6 +27,7 @@ const Login = (props) => {
         if('fetch' in window){
             fetch('/user/login',{
                 method:'POST',
+                credentials: "include",
                 headers:{
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
@@ -36,10 +37,10 @@ const Login = (props) => {
                   if(data.state == 100){
                       message.success(data.msg)
                       props.login(true,data.result[0]);
-                      if(cookieUtil.get('loginChecked')=='true'){
+                      /*if(cookieUtil.get('loginChecked')=='true'){
                           cookieUtil.set('userName',userName,new Date().setTime(new Date().getTime()+24*60*60*1000))
                           cookieUtil.set('password',password,new Date().setTime(new Date().getTime()+24*60*60*1000))
-                      }
+                      }*/
                   }else {
                       message.error(data.msg)
                   }
@@ -72,12 +73,11 @@ const Login = (props) => {
             cookieUtil.set('loginChecked',e.target.checked)
             console.log(document.cookie)
             console.log(cookieUtil.get('loginChecked'))
-        if(e.target.checked){
-
+       /* if(e.target.checked){
         }else {
             cookieUtil.unset('userName')
             cookieUtil.unset('password')
-        }
+        }*/
         // }
     };
     return (<Form onSubmit={handleSubmit} className="login-form">
@@ -145,7 +145,6 @@ const cookieUtil = {
     }
 
 };
-console.log(document.cookie)
 /*
 //如果帐号密码不是larry 123就重置为larry 123
 if(cookieUtil.get('userName') !== 'larry' && cookieUtil.get('password') !== '123'){

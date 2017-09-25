@@ -34,7 +34,6 @@ export const loginState = (state = loginInitState,action) => {
             return loginInitState;
     }
 };
-
 const homeInitState = {collapsed:false,currentTask:0,key:'1',finished:0};
 export const homeState = (state = homeInitState,action)=>{
     let tmpState = state;

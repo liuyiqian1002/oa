@@ -9,7 +9,7 @@ class TaskCards extends React.Component{
     }
     render(){
         // const oldState = store.getState();
-        console.log(this.props.arrData)
+        // console.log(this.props.arrData)
          return (
             <div style={{width:'90%',textAlign:'center'}}>
                 <Row gutter={16}>
