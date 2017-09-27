@@ -7,6 +7,7 @@ import TaskCards from '../components/TaskCards'
 import TaskDetail from '../components/TaskDetail'
 import ShowTime from '../components/ShowTime'
 import ApprovalBox from '../containers/ApprovalBox'
+import OperateRecordBox from '../containers/OperateRecordBox'
 import AddTask from '../components/AddTask'
 import store,{CONSTANT} from '../reducer/reducer';
 const layoutStyle = {
@@ -68,6 +69,7 @@ class HomeLayout extends React.Component {
         // this.handleTask = this.handleTask.bind(this)
     }
     onClickHandle = (e) => {
+        //如果每次要刷新工作状态在这里需要再次请求数据
         console.log(e)
         if(e.key === '1'){
             tmpArrData = arrData;
@@ -116,13 +118,18 @@ class HomeLayout extends React.Component {
                             </Menu.Item>
                         </SubMenu>
                         <Menu.Item key="3"><Icon type="video-camera" /><span className="nav-text" onClick={(e)=>this.onClickHandle(e)}>我的审批</span></Menu.Item>
-                        {/*<Menu.Item key="3"><Icon type="upload" /><span className="nav-text">新增工作</span></Menu.Item>
-                        <Menu.Item key="4"><Icon type="user" /><span className="nav-text">我的审批</span></Menu.Item>*/}
+                        {/*/!*<Menu.Item key="4"><Icon type="upload" /><span className="nav-text">新增工作</span></Menu.Item>*/}
+                        <Menu.Item key="4"><Icon type="user" /><span className="nav-text">操作记录</span></Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#fff', padding: 0,textAlign:'center' }} >
-                        <h1>{state.homeState.key === '1' && '我的任务'}{state.homeState.key === '2' && '我的分配'}{state.homeState.key === '3' && '我的审批'}</h1>
+                        <h1>
+                            {state.homeState.key === '1' && '我的任务'}
+                            {state.homeState.key === '2' && '我的分配'}
+                            {state.homeState.key === '3' && '我的审批'}
+                            {state.homeState.key === '4' && '操作记录'}
+                        </h1>
                         <span style={{position:'absolute',fontSize:16,right:80,top:3}}>{JSON.parse(decodeURI(this.props.location.search.substring(1))).name}</span>
                         <Link to='/user/page/login' onClick={this.loginOut} style={{position:'absolute',top:5,right:30,cursor:'pointer'}}><Icon type="poweroff" style={{fontSize:18,color:'red'}}/></Link>
                     </Header>
@@ -131,21 +138,35 @@ class HomeLayout extends React.Component {
                         {/*{state.homeState.key === '1' && <Breadcrumb.Item>我的工作</Breadcrumb.Item>}*/}
                         {state.homeState.currentTask === 0 &&
                         <Breadcrumb style={{ margin: '12px 0' }}>
-                            <Breadcrumb.Item>{state.homeState.key === '1' && '我的工作'}{state.homeState.key === '2' && '我的分配'}{state.homeState.key === '3' && '我的审批'}</Breadcrumb.Item>
+                            <Breadcrumb.Item>
+                                {state.homeState.key === '1' && '我的工作'}
+                                {state.homeState.key === '2' && '我的分配'}
+                                {state.homeState.key === '3' && '我的审批'}
+                                {state.homeState.key === '4' && '操作记录'}
+                            </Breadcrumb.Item>
                         </Breadcrumb>}
                         {state.homeState.currentTask !== 0 &&
                         <Breadcrumb style={{ margin: '12px 0' }}>
-                            <Breadcrumb.Item>{state.homeState.key === '1' && '我的工作'}{state.homeState.key === '2' && '我的分配'}{state.homeState.key === '3' && '我的审批'}</Breadcrumb.Item>
+                            <Breadcrumb.Item>
+                                {state.homeState.key === '1' && '我的工作'}
+                                {state.homeState.key === '2' && '我的分配'}
+                                {state.homeState.key === '3' && '我的审批'}
+                                {state.homeState.key === '4' && '操作记录'}
+                            </Breadcrumb.Item>
                             <Breadcrumb.Item>{state.homeState.currentTask.title}</Breadcrumb.Item>
                         </Breadcrumb>}
-                        {state.homeState.currentTask === 0 &&
+                        {state.homeState.currentTask === 0 && state.homeState.key !== '4' &&
                         <div style={{float:'right'}}>
-                            <Button type='default'  onClick={()=>this.onClickBtnHandleAll()}><span style={{color:'#108ee9'}}>全<span style={{color:'#fff'}}>一</span>部</span></Button>
+                            <Button type='default'
+                                    onClick={()=>this.onClickBtnHandleAll()}>
+                                <span style={{color:'#108ee9'}}>全<span style={{color:'#fff'}}>一</span>部</span>
+                            </Button>
                             <br/>
                             <Button type='danger'  onClick={()=>this.onClickBtnHandle(0)}>未完成</Button>
                             <br/>
                             <Button type='default' onClick={()=>this.onClickBtnHandle(1)}><span style={{color:'#49a9ee'}}>审核中</span></Button>
                             <br/>
+
                             <Button type='default'
                                     onFocus={(e)=>{e.target.style.backgroundColor='#green'}}
                                     onClick={()=>this.onClickBtnHandle(2)}>
@@ -153,7 +174,7 @@ class HomeLayout extends React.Component {
                             </Button>
                             <br/>
                             <br/>
-                            <AddTask/>
+                            {state.homeState.key === '2' && <AddTask/>}
                         </div>}
                         <div style={{ padding: 24, background: '#fff', minHeight: 360, maxHeight: winHeight-150,overflowY:'scroll'}}>
                             {/*{console.log(state.homeState.key === '1' && state.homeState.currentTask !== 0)}*/}
@@ -162,7 +183,7 @@ class HomeLayout extends React.Component {
                             {(state.homeState.currentTask !== 0 && (state.homeState.key === '1' || state.homeState.key === '2')) &&
                             <TaskDetail taskData={state.homeState.currentTask} finished={state.homeState.finished} value={state.homeState.currentTask} style={{ width: 120 }}></TaskDetail>}
                             {state.homeState.key === '3' && <ApprovalBox/>}
-                            {/*{state.homeState.key === '2' && <AddTask/>}*/}
+                            {state.homeState.key === '4' && <OperateRecordBox/>}
                         </div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>

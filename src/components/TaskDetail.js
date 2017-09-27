@@ -5,6 +5,7 @@ class TaskDetail extends React.Component{
     constructor(props){
         super(props)
     }
+    state= {disabled:false};
     getSpan(finish){
         switch (finish){
             case 2:
@@ -17,11 +18,11 @@ class TaskDetail extends React.Component{
                 return ;
         }
     }
-    onClickSubmit(url){
+    onClickSubmit=(url)=>{
        /* console.log(e);
         e.target.disable = true*/
         let args = 'userId='+ this.props.taskData.userId +'&id='+this.props.taskData.id;
-
+        console.log('taskId没有，userId也没有:'+args);
         if('fetch' in window){
             fetch(url,{
                 method:'POST',
@@ -34,10 +35,18 @@ class TaskDetail extends React.Component{
                     return response.json();
                 })*/.then(data=>{
                 //处理返回数据
-                message.success('提交完成!');
                 console.log(data)
+                if(data.status === 200){
+                    console.log(this.state.disabled)
+                    this.setState({disabled:true});
+                    // message.success('提交完成!');
+                }
             }).catch(err=>console.log(err))
         }
+    }
+    getDisabled(){
+        console.log(this.state.disabled);
+        return this.state.disabled
     }
     render(){
         // const {key} = this.props;
@@ -52,6 +61,8 @@ class TaskDetail extends React.Component{
                             <p>内容：{this.props.taskData.content}</p>
                             <br/>
                             <p>备注：{this.props.taskData.remarks}</p>
+                            <br/>
+                            {this.props.taskData.assignName?<p>创建人：{this.props.taskData.assignName}</p>:<p>责任人：{this.props.taskData.userName}</p>}
                         </Card>
                     </Col>
                 </Row>
@@ -60,15 +71,15 @@ class TaskDetail extends React.Component{
                 <Row>
                     {this.props.taskData.assignUserId &&
                     <Col span={6} offset={11}>
-                        <Button onClick={(e)=>this.onClickSubmit('/task/submit')} type='primary' disabled={this.props.finished !== 0}>提交</Button>
+                        <Button onClick={(e)=>this.onClickSubmit('/task/submit')} type='primary' disabled={this.state.disabled || this.props.finished !== 0}>提交</Button>
                     </Col>}
                     {this.props.taskData.userId && this.props.finished !== 2 &&
                     <div>
                         <Col span={4} offset={6}>
-                            <Button onClick={()=>this.onClickSubmit('/task/submit')} type='primary'>完<span style={{color:'#000'}}>一</span>成</Button>
+                            <Button onClick={()=>this.onClickSubmit('/task/submit')} type='primary' disabled={this.props.finished === 0}>完&nbsp;&nbsp;&nbsp;&nbsp;成</Button>
                         </Col>
                         <Col span={4} offset={4}>
-                            <Button onClick={()=>this.onClickNovia('/task/fail')}>不通过</Button>
+                            <Button onClick={()=>this.onClickSubmit('/task/fail')} disabled={this.props.finished === 0}>不通过</Button>
                         </Col>
                     </div>}
                 </Row>
