@@ -19,10 +19,10 @@ class TaskDetail extends React.Component{
         }
     }
     onClickSubmit=(url)=>{
-       /* console.log(e);
-        e.target.disable = true*/
-        let args = 'userId='+ this.props.taskData.userId +'&id='+this.props.taskData.id;
-        console.log('taskId没有，userId也没有:'+args);
+       console.log(this.props.taskData.userId + ';'+ this.props.taskData.assignUserId+';'+(url.indexOf('submit') === -1))
+       let id = (url.indexOf('submit') !== -1)?this.props.taskData.userId:this.props.taskData.assignUserId;
+        let args = 'userId='+ id +'&id='+this.props.taskData.id;
+        console.log('userId也没有: '+args);
         if('fetch' in window){
             fetch(url,{
                 method:'POST',

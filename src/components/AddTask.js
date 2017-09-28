@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import { Button, Form, Input, Radio, Modal, Checkbox, message } from 'antd';
+import cookieUtil from '../libs/cookieUtil';
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
@@ -87,24 +88,12 @@ class AddTask extends React.Component {
             if (err) {
                 return;
             }
-            let assignUserId = 1;
+            console.log(decodeURI(location.href).substring(decodeURI(location.href).indexOf('?')+1));
+            let assignUserId = JSON.parse(decodeURI(location.href).substring(decodeURI(location.href).indexOf('?')+1)).id;
+            console.log('assignUserId:'+assignUserId)
             console.log('Received values of form: ', values);
             let str = 'userId='+values.userId+'&assignUserId='+assignUserId+'&title='+values.title+'&content='+values.description+'&remarks='+values.remarks;
             console.log(str)
-            /*let context = new FormData();
-            context.append('userId',values.userId);
-            context.append('assignUserId',assignUserId);
-            context.append('title',values.title);
-            context.append('content',values.description);
-            context.append('remarks',values.remarks);*/
-            // console.log('fd:'+context)
-            /*str = {
-                userId:values.userId,
-                assignUserId:values.assignUserId,
-                title:values.title,
-                content:values.description,
-                remarks:values.remarks,
-            }*/
             if('fetch' in window){
                 fetch('/task/add',{
                     method:'POST',

@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import {BrowserRouter, Route,Redirect, Link} from 'react-router-dom';
 import Login from '../components/Login';
 import HomeLayout from '../containers/HomeLayout';
+import cookieUtil from '../libs/cookieUtil';
 
 const divStyle = {
     textAlign:'center !important',
@@ -15,11 +16,17 @@ class LoginBox extends React.Component {
         data:''
     }
     handleLogin(bool,data){
-        this.setState({login:bool,data:JSON.stringify(data)});
+        this.setState({login:bool,data:data});
+    }
+    componentDidMount(){
+        if(cookieUtil.get('userName') && cookieUtil.get('password')){
+            this.setState({login:true,data:cookieUtil.get('userData')})
+        }
     }
     render(){
         if(this.state.login){
-            return (<Redirect push to={'/home?'+encodeURI(this.state.data)}/>)
+            // console.log(JSON.stringify(this.state.data))
+            return (<Redirect push to={'/home?'+encodeURI(JSON.stringify(this.state.data))}/>)
            /* return (<Link to={{
                 pathname: '/',
                 search: '?'+encodeURI(this.state.data),

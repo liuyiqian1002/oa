@@ -10,6 +10,8 @@ import ApprovalBox from '../containers/ApprovalBox'
 import OperateRecordBox from '../containers/OperateRecordBox'
 import AddTask from '../components/AddTask'
 import store,{CONSTANT} from '../reducer/reducer';
+import cookieUtil from '../libs/cookieUtil';
+
 const layoutStyle = {
     width:'100%',
     height:'100%'
@@ -33,8 +35,9 @@ class HomeLayout extends React.Component {
         console.log(args)
     }*/
     componentWillMount(){
-        console.log('home:'+document.cookie)
-        let str = 'userId='+1;
+        console.log('home:'+document.cookie);
+        let str = 'userId='+JSON.parse(decodeURI(this.props.location.search.substring(1))).id;
+        console.log(str);
         function getFetchData(url,arg,acData) {
             if('fetch' in window){
                 fetch(url,{
@@ -47,7 +50,7 @@ class HomeLayout extends React.Component {
                     body:arg
                 }).then((response)=>response.json())
                     .then((data)=>{
-                    console.log(data)
+                    // console.log(data.result)
                         if (acData == 1){
                             arrData = tmpArrData = data.result;
                             store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
@@ -61,7 +64,7 @@ class HomeLayout extends React.Component {
             }
         }
         getFetchData('/task/list',str,1); //1代表我的任务
-        str = 'assignUserId='+1;
+        str = 'assignUserId='+JSON.parse(decodeURI(this.props.location.search.substring(1))).id;
         getFetchData('/task/assignList',str,2); //2代表我分配的任务
 
     }
@@ -71,7 +74,7 @@ class HomeLayout extends React.Component {
     }
     onClickHandle = (e) => {
         //如果每次要刷新工作状态在这里需要再次请求数据
-        console.log(e)
+        // console.log(e)
         if(e.key === '1'){
             tmpArrData = arrData;
         } else if(e.key === '2'){
@@ -101,14 +104,20 @@ class HomeLayout extends React.Component {
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
     }
     loginOut=()=>{
-        message.success('退出成功！')
+        message.success('退出成功！');
+        cookieUtil.unset('userName');
+        cookieUtil.unset('password');
+        cookieUtil.unset('userData');
     };
     render() {
         return (
             <Layout style={layoutStyle}>
                 <Sider width={240} collapsible = 'false'>
                     <div className="logo" > <ShowTime/></div>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['task']} onClick={(e)=>this.onClickHandle(e)}>
+                    <Menu theme="dark" mode="inline"
+                          defaultSelectedKeys={['1']}
+                          onClick={(e)=>this.onClickHandle(e)}
+                          defaultOpenKeys={['task']}>
                         <SubMenu key='task'
                                  title={<span><Icon type="user" /><span>我的工作</span></span>}>
                             <Menu.Item key="1">
@@ -120,7 +129,7 @@ class HomeLayout extends React.Component {
                         </SubMenu>
                         <Menu.Item key="3"><Icon type="video-camera" /><span className="nav-text" onClick={(e)=>this.onClickHandle(e)}>我的审批</span></Menu.Item>
                         {/*/!*<Menu.Item key="4"><Icon type="upload" /><span className="nav-text">新增工作</span></Menu.Item>*/}
-                        <Menu.Item key="4"><Icon type="user" /><span className="nav-text">操作记录</span></Menu.Item>
+                        <Menu.Item key="4"><Icon type="clock-circle-o" /><span className="nav-text">操作记录</span></Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>

@@ -7,7 +7,8 @@ const liStyle = {
     border:'1px solid #eee',
     // marginBottom:'20px',
     lineHeight:'40px',
-    width:'60%'
+    width:'72%',
+    paddingLeft:'3%'
 }
 
 const OperateRecord = (props) =>{
@@ -15,7 +16,7 @@ const OperateRecord = (props) =>{
     return <ul style={props.style}>
         {props.data.map((value,index)=>{
             return <li key={index} style={liStyle}>
-                <span>任务：“{value.taskTitle}”</span>
+                <span>任务“{value.taskTitle}”</span>
                 <span>由{value.userName}</span>
                 {value.type === 0 && <span style={{color:'red'}}>初始创建</span>}
                 {value.type === 1 && <span style={{color:'#49a9ee'}}>提交</span>}

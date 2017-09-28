@@ -13,7 +13,7 @@ class TaskCards extends React.Component{
          return (
             <div style={{width:'90%',textAlign:'center'}}>
                 <Row gutter={16}>
-                    {this.props.arrData.map((value,index) => {
+                    {(this.props.arrData).map((value,index) => {
                         // console.log(value)
                         return (
                             <div key={index} onClick={()=>this.props.handleTask(value)}>

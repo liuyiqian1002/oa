@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 const FormItem = Form.Item;
-import RegisterBox from '../containers/RegisterBox';
+import cookieUtil from '../libs/cookieUtil';
 console.log('login:'+document.cookie);
 
 const Login = (props) => {
@@ -38,10 +38,12 @@ const Login = (props) => {
                   if(data.state == 100){
                       message.success(data.msg)
                       props.login(true,data.result[0]);
-                      /*if(cookieUtil.get('loginChecked')=='true'){
-                          cookieUtil.set('userName',userName,new Date().setTime(new Date().getTime()+24*60*60*1000))
-                          cookieUtil.set('password',password,new Date().setTime(new Date().getTime()+24*60*60*1000))
-                      }*/
+                      if(!cookieUtil.get('userName')){
+                          console.log('cookie设置成功');
+                          cookieUtil.set('userName',userName,new Date().setTime(new Date().getTime()+30*24*60*60*1000))
+                          cookieUtil.set('password',password,new Date().setTime(new Date().getTime()+30*24*60*60*1000))
+                          cookieUtil.set('userData',data.result[0],new Date().setTime(new Date().getTime()+30*24*60*60*1000))
+                      }
                   }else {
                       message.error(data.msg)
                   }
@@ -109,46 +111,3 @@ const Login = (props) => {
 
 export default Login;
 
-
-
-// cookie读写封装
-const cookieUtil = {
-    get:(name)=>{
-        let cookieName = encodeURIComponent(name)+'=',
-            cookieStart = document.cookie.indexOf(cookieName),
-            cookieValue = null;
-        if(cookieStart > -1){
-            let cookieEnd = document.cookie.indexOf(';',cookieStart);
-            if(cookieEnd == -1){
-                cookieEnd = document.cookie.length;
-            }
-            cookieValue = decodeURIComponent(document.cookie.substring(cookieStart+cookieName.length,cookieEnd))
-        }
-        return cookieValue;
-    },
-    set:(name,value,expires,path,domain,secure)=> {
-        let cookieText = encodeURIComponent(name) + '=' + encodeURIComponent(value);
-        if (expires instanceof Date) {
-            cookieText += ";expires=" + expires.toGMTString();
-        }
-        if (path) {
-            cookieText += ";path=" + path;
-        }
-
-        if (secure) {
-            cookieText += ";secure=" + secure;
-        }
-        document.cookie = cookieText;
-    },
-    unset:(name,path,domain,secure)=>{
-        cookieUtil.set(name,'',new Date(0),path,domain,secure);
-    }
-
-};
-/*
-//如果帐号密码不是larry 123就重置为larry 123
-if(cookieUtil.get('userName') !== 'larry' && cookieUtil.get('password') !== '123'){
-    console.log('reset')
-    cookieUtil.set('userName','larry')
-    cookieUtil.set('password','123')
-}*/

@@ -19,26 +19,15 @@ class App extends React.Component {
 render(){
     return (
             <div style={h4Style}>
-                {/*<LoginBox></LoginBox>*/}
-                {/*<Route  path='/'  component={LoginBox}/>*/}
                 <Route exact path='/' component={LoginBox}/>
                 <Route path='/register' component={RegisterBox}/>
                 <Route path='/home' component={HomeLayout}/>
-                    {/*<Route path='/register' component={RegisterBox} />
-                    <Route path='/home' component={HomeLayout}/>*/}
-                {/*<LoginBox loginIn = {this.handleLogin.bind(this)}></LoginBox>
-                <HomeLayout loginOut = {this.handleLogin.bind(this)}></HomeLayout>*/}
             </div>
     )
 }
 
 }
 
-/*class App extends React.Component{
-    render(){
-        return (<div>React</div>)
-    }
-}*/
 
 function mapStateToProps(state) {
     return {
