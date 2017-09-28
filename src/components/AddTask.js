@@ -66,7 +66,6 @@ class AddTask extends React.Component {
             }).then((response) => response.json())
                 .then(data=>{
                     //处理返回数据
-                    console.log(data)
                     const options = [];
                     data.result.map((value,index)=>{
                         let temp = {};
@@ -75,7 +74,6 @@ class AddTask extends React.Component {
                         options.push(temp);
                     })
                     this.setState({ visible: true,userData: options});
-                    console.log(this.state)
                 }).catch(err=>console.log(err))
         }
     }

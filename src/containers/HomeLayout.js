@@ -50,7 +50,6 @@ class HomeLayout extends React.Component {
                     body:arg
                 }).then((response)=>response.json())
                     .then((data)=>{
-                    // console.log(data.result)
                         if (acData == 1){
                             arrData = tmpArrData = data.result;
                             store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
@@ -90,9 +89,15 @@ class HomeLayout extends React.Component {
         // console.log(state.homeState.currentTask+' '+state.homeState.key)
 
     };
-    onClickBtnHandle=(bool)=>{
-        // this.setState(Object.assign({},this.state,{finished:bool}))
-        tmpArrData = arrData.filter(value=>value.isComplete == bool);
+    onClickBtnHandle=(bool,key)=>{
+        if(key === '1'){
+            tmpArrData = arrData.filter(value=>value.isComplete == bool);
+        }else if(key === '2'){
+            tmpArrData = assginArrData.filter(value=>value.isComplete == bool);
+        }else{
+            message.error('错误参数：'+key);
+            return;
+        }
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:bool}})
     };
     onClickBtnHandleAll=()=>{
@@ -172,14 +177,14 @@ class HomeLayout extends React.Component {
                                 <span style={{color:'#108ee9'}}>全<span style={{color:'#fff'}}>一</span>部</span>
                             </Button>
                             <br/>
-                            <Button type='danger'  onClick={()=>this.onClickBtnHandle(0)}>未完成</Button>
+                            <Button type='danger'  onClick={()=>this.onClickBtnHandle(0,state.homeState.key)}>未完成</Button>
                             <br/>
-                            <Button type='default' onClick={()=>this.onClickBtnHandle(1)}><span style={{color:'#49a9ee'}}>审核中</span></Button>
+                            <Button type='default' onClick={()=>this.onClickBtnHandle(1,state.homeState.key)}><span style={{color:'#49a9ee'}}>审核中</span></Button>
                             <br/>
 
                             <Button type='default'
                                     onFocus={(e)=>{e.target.style.backgroundColor='#green'}}
-                                    onClick={()=>this.onClickBtnHandle(2)}>
+                                    onClick={()=>this.onClickBtnHandle(2,state.homeState.key)}>
                                 <span style={{color:'green'}}>已完成</span>
                             </Button>
                             <br/>
