@@ -23,7 +23,7 @@ const Register = () => {
                 <Button type="primary" htmlType="submit" className="login-form-button">
                     注 册
                 </Button>
-                Or <Link to="/user/page/login">现在登录!</Link>
+                Or <Link to="/">现在登录!</Link>
             </FormItem>
         </Form>
     );

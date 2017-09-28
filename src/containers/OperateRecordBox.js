@@ -12,7 +12,7 @@ class OperateRecordBox extends React.Component{
         // let _this = this;
         // _this.setState({data:[{title:1}]})
         if('fetch' in window){
-            fetch('task/taskDataAll',{
+            fetch('/task/taskDataAll',{
                 method:'POST',
                 credentials: "include",
                 headers:{

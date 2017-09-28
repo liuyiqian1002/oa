@@ -47,6 +47,7 @@ class HomeLayout extends React.Component {
                     body:arg
                 }).then((response)=>response.json())
                     .then((data)=>{
+                    console.log(data)
                         if (acData == 1){
                             arrData = tmpArrData = data.result;
                             store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
@@ -131,7 +132,7 @@ class HomeLayout extends React.Component {
                             {state.homeState.key === '4' && '操作记录'}
                         </h1>
                         <span style={{position:'absolute',fontSize:16,right:80,top:3}}>{JSON.parse(decodeURI(this.props.location.search.substring(1))).name}</span>
-                        <Link to='/user/page/login' onClick={this.loginOut} style={{position:'absolute',top:5,right:30,cursor:'pointer'}}><Icon type="poweroff" style={{fontSize:18,color:'red'}}/></Link>
+                        <Link to='/' onClick={this.loginOut} style={{position:'absolute',top:5,right:30,cursor:'pointer'}}><Icon type="poweroff" style={{fontSize:18,color:'red'}}/></Link>
                     </Header>
                     <Content style={{ margin: '24px 16px 0',maxHeight: winHeight-150 }}>
 
@@ -179,9 +180,17 @@ class HomeLayout extends React.Component {
                         <div style={{ padding: 24, background: '#fff', minHeight: 360, maxHeight: winHeight-150,overflowY:'scroll'}}>
                             {/*{console.log(state.homeState.key === '1' && state.homeState.currentTask !== 0)}*/}
                             {(state.homeState.key === '1' || state.homeState.key === '2') && state.homeState.currentTask === 0 &&
-                            <TaskCards arrData={tmpArrData} finished={state.homeState.finished} handleTask = {this.handleTask} style={{ width: 120 }}></TaskCards>}
+                            <TaskCards arrData={tmpArrData}
+                                       finished={state.homeState.finished}
+                                       handleTask = {this.handleTask}
+                                       style={{ width: 120 }}></TaskCards>}
                             {(state.homeState.currentTask !== 0 && (state.homeState.key === '1' || state.homeState.key === '2')) &&
-                            <TaskDetail taskData={state.homeState.currentTask} finished={state.homeState.finished} value={state.homeState.currentTask} style={{ width: 120 }}></TaskDetail>}
+                            <TaskDetail taskData={state.homeState.currentTask}
+                                        finished={state.homeState.finished}
+                                        value={state.homeState.currentTask}
+                                        style={{ width: 120 }}
+                                        taskType={state.homeState.key}
+                            ></TaskDetail>}
                             {state.homeState.key === '3' && <ApprovalBox/>}
                             {state.homeState.key === '4' && <OperateRecordBox/>}
                         </div>

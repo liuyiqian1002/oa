@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import ReactDom from 'react-dom';
-import {BrowserRouter, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, HashRouter, Route, Redirect ,Switch, withRouter} from 'react-router-dom';
 import { connect,Provider } from 'react-redux';
 import store,{collapsed,CONSTANT} from './reducer/reducer';
 import LoginBox from './containers/LoginBox';
@@ -18,19 +18,17 @@ const h4Style = {
 class App extends React.Component {
 render(){
     return (
-        <BrowserRouter>
-            {/*<Route path='/'  component={LoginBox}/>*/}
             <div style={h4Style}>
-                    <Route path='/user/page/login' component={LoginBox}/>
-                    <Route path='/register' component={RegisterBox}/>
-                    <Route path='/home' component={HomeLayout}/>
-                    {/*<Route path='/'  component={LoginBox}/>*/}
+                {/*<LoginBox></LoginBox>*/}
+                {/*<Route  path='/'  component={LoginBox}/>*/}
+                <Route exact path='/' component={LoginBox}/>
+                <Route path='/register' component={RegisterBox}/>
+                <Route path='/home' component={HomeLayout}/>
                     {/*<Route path='/register' component={RegisterBox} />
                     <Route path='/home' component={HomeLayout}/>*/}
                 {/*<LoginBox loginIn = {this.handleLogin.bind(this)}></LoginBox>
                 <HomeLayout loginOut = {this.handleLogin.bind(this)}></HomeLayout>*/}
             </div>
-        </BrowserRouter>
     )
 }
 
@@ -56,10 +54,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-const App1=connect(mapStateToProps)(App);
+const App1=withRouter(connect(mapStateToProps)(App));
 
 ReactDom.render(
     <Provider store={store}>
+        <HashRouter>
         <App1/>
+        </HashRouter>
     </Provider>,
     document.getElementById('main'));

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {BrowserRouter, Route,Redirect} from 'react-router-dom';
+import {BrowserRouter, Route,Redirect, Link} from 'react-router-dom';
 import Login from '../components/Login';
 import HomeLayout from '../containers/HomeLayout';
 
@@ -20,6 +20,12 @@ class LoginBox extends React.Component {
     render(){
         if(this.state.login){
             return (<Redirect push to={'/home?'+encodeURI(this.state.data)}/>)
+           /* return (<Link to={{
+                pathname: '/',
+                search: '?'+encodeURI(this.state.data),
+                hash: '#home',
+                state: { fromDashboard: true }
+            }}/>)*/
         }
         return(
         <div style={divStyle}>

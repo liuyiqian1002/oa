@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import {BrowserRouter, Route, Link} from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 const FormItem = Form.Item;
+import RegisterBox from '../containers/RegisterBox';
 console.log('login:'+document.cookie);
 
 const Login = (props) => {
@@ -101,7 +102,6 @@ const Login = (props) => {
                         登 录
                     </Button>
                     Or <Link to="/register" >现在注册<Icon type="right"/></Link>
-
                 </FormItem>
         </Form>
     );

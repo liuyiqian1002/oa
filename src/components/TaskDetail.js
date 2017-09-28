@@ -39,14 +39,10 @@ class TaskDetail extends React.Component{
                 if(data.status === 200){
                     console.log(this.state.disabled)
                     this.setState({disabled:true});
-                    // message.success('提交完成!');
+                    message.success('提交完成!');
                 }
             }).catch(err=>console.log(err))
         }
-    }
-    getDisabled(){
-        console.log(this.state.disabled);
-        return this.state.disabled
     }
     render(){
         // const {key} = this.props;
@@ -62,18 +58,18 @@ class TaskDetail extends React.Component{
                             <br/>
                             <p>备注：{this.props.taskData.remarks}</p>
                             <br/>
-                            {this.props.taskData.assignName?<p>创建人：{this.props.taskData.assignName}</p>:<p>责任人：{this.props.taskData.userName}</p>}
+                            {this.props.taskType === '1' ? <p>创建人：{this.props.taskData.assignName}</p>:<p>责任人：{this.props.taskData.userName}</p>}
                         </Card>
                     </Col>
                 </Row>
                 <br/>
                 <br/>
                 <Row>
-                    {this.props.taskData.assignUserId &&
+                    {this.props.taskType === '1' &&
                     <Col span={6} offset={11}>
                         <Button onClick={(e)=>this.onClickSubmit('/task/submit')} type='primary' disabled={this.state.disabled || this.props.finished !== 0}>提交</Button>
                     </Col>}
-                    {this.props.taskData.userId && this.props.finished !== 2 &&
+                    {this.props.taskType === '2' && this.props.finished === 1 &&
                     <div>
                         <Col span={4} offset={6}>
                             <Button onClick={()=>this.onClickSubmit('/task/submit')} type='primary' disabled={this.props.finished === 0}>完&nbsp;&nbsp;&nbsp;&nbsp;成</Button>
