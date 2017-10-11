@@ -52,3 +52,4 @@ oa办公系统
 解决办法：使用babel-polyfill，whatwg-fetch解决，安装完成后在入口处配置即可
 
 点浏览器自带返回键后，url所传的参数变成[Object Object]是的从url获取的参数不正确导致数据请求不到，有待修复
+此问题已修复
