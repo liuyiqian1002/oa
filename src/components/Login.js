@@ -42,11 +42,14 @@ const Login = (props) => {
                   if(data.state == 100){
                       message.success(data.msg)
                       props.login(true,data.result[0]);
+                      console.log(data.result[0])
+                      console.log(JSON.stringify(data.result[0]))
+                      console.log(encodeURI(JSON.stringify(data.result[0])))
                       if(!cookieUtil.get('userName')){
                           // console.log('cookie设置成功');
                           cookieUtil.set('userName',userName,new Date().setTime(new Date().getTime()+30*24*60*60*1000))
                           cookieUtil.set('password',password,new Date().setTime(new Date().getTime()+30*24*60*60*1000))
-                          cookieUtil.set('userData',data.result[0],new Date().setTime(new Date().getTime()+30*24*60*60*1000))
+                          cookieUtil.set('userData',encodeURI(JSON.stringify(data.result[0])),new Date().setTime(new Date().getTime()+30*24*60*60*1000))
                       }
                   }else {
                       message.error(data.msg)

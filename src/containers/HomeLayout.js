@@ -81,12 +81,18 @@ class HomeLayout extends React.Component {
     }*/
     componentWillMount(){
         userId = JSON.parse(decodeURI(this.props.location.search.substring(1))).id;
-        getFetchData('/task/list','userId='+userId,1); //1代表我的任务
-        getFetchData('/task/assignList','assignUserId='+userId,2); //2代表我分配的任务
-        // console.log('init:'+isInit)
-        setTimeout(function () {
-            isInit = false;
-        },1000)
+        if(!userId){
+            userId = JSON.parse(decodeURI(cookieUtil.get('userData'))).id;
+        }
+        console.log(userId)
+        if(userId){
+            getFetchData('/task/list','userId='+userId,1); //1代表我的任务
+            getFetchData('/task/assignList','assignUserId='+userId,2); //2代表我分配的任务
+            // console.log('init:'+isInit)
+            setTimeout(function () {
+                isInit = false;
+            },1000)
+        }
 
 
     }
