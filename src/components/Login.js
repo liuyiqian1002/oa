@@ -3,8 +3,11 @@ import {BrowserRouter, Route, Link} from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox,message } from 'antd';
 const FormItem = Form.Item;
 import cookieUtil from '../libs/cookieUtil';
-console.log('login:'+document.cookie);
-
+// console.log('login:'+document.cookie);
+/*import Promise from 'promise-polyfill';
+if(!window.Promise){
+    window.Promise = Promise
+}*/
 const Login = (props) => {
     let userName = '';
     let password = '';
@@ -25,7 +28,7 @@ const Login = (props) => {
         password = document.getElementById('pwd').value;
         let args = 'account='+userName+'&password='+password;
         // console.log(args);
-        if('fetch' in window){
+        // if('fetch' in window){
             fetch('/user/login',{
                 method:'POST',
                 credentials: "include",
@@ -33,13 +36,14 @@ const Login = (props) => {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body:args
-            }).then((response) => response.json())
+            }).then((response) => {console.log(response);return response.json()})
               .then(data=>{
+                  console.log(data)
                   if(data.state == 100){
                       message.success(data.msg)
                       props.login(true,data.result[0]);
                       if(!cookieUtil.get('userName')){
-                          console.log('cookie设置成功');
+                          // console.log('cookie设置成功');
                           cookieUtil.set('userName',userName,new Date().setTime(new Date().getTime()+30*24*60*60*1000))
                           cookieUtil.set('password',password,new Date().setTime(new Date().getTime()+30*24*60*60*1000))
                           cookieUtil.set('userData',data.result[0],new Date().setTime(new Date().getTime()+30*24*60*60*1000))
@@ -48,7 +52,9 @@ const Login = (props) => {
                       message.error(data.msg)
                   }
               }).catch(err=>console.log(err))
-        }
+        /*}else{
+            message.error('浏览器不支持fetch新特性')
+        }*/
         /*if(cookieUtil.get('loginChecked')=='true'){
             if('larry' === cookieUtil.get('userName') && '123' === cookieUtil.get('password')){
                 message.success('登录成功！')

@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path')
 module.exports = {
     devtool:'eval-source-map',
-    entry:__dirname + '/src/index.js',
+    entry:['babel-polyfill','whatwg-fetch',__dirname + '/src/index.js'],
     output: {
         path:path.resolve("../resources"),
         filename: "index.js"
@@ -37,7 +37,7 @@ module.exports = {
         historyApiFallback:true,
         hot:true,
         inline:true,
-        port:3003,
+        port:3006,
         // host:'10.1.1.127'
     }
 };

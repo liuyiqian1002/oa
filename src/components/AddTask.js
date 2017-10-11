@@ -1,9 +1,17 @@
 import React,{ Component } from 'react';
+import store,{CONSTANT} from '../reducer/reducer';
 import { Button, Form, Input, Radio, Modal, Checkbox, message } from 'antd';
 import cookieUtil from '../libs/cookieUtil';
+import {updateData} from '../containers/HomeLayout'
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
+
+
+let state = store.getState();
+store.subscribe(function () {
+    state = store.getState()
+});
 
 const CollectionCreateForm = Form.create()(
     (props) => {
@@ -88,8 +96,8 @@ class AddTask extends React.Component {
             }
             console.log(decodeURI(location.href).substring(decodeURI(location.href).indexOf('?')+1));
             let assignUserId = JSON.parse(decodeURI(location.href).substring(decodeURI(location.href).indexOf('?')+1)).id;
-            console.log('assignUserId:'+assignUserId)
-            console.log('Received values of form: ', values);
+            /*console.log('assignUserId:'+assignUserId)
+            console.log('Received values of form: ', values);*/
             let str = 'userId='+values.userId+'&assignUserId='+assignUserId+'&title='+values.title+'&content='+values.description+'&remarks='+values.remarks;
             console.log(str)
             if('fetch' in window){
@@ -107,6 +115,7 @@ class AddTask extends React.Component {
                         console.log(data)
                     if(data.ok){
                         message.success('增加成功！');
+                        updateData();
                     }
                     }).catch(err=>console.log(err))
             }

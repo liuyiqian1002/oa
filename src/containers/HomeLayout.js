@@ -11,7 +11,6 @@ import OperateRecordBox from '../containers/OperateRecordBox'
 import AddTask from '../components/AddTask'
 import store,{CONSTANT} from '../reducer/reducer';
 import cookieUtil from '../libs/cookieUtil';
-
 const layoutStyle = {
     width:'100%',
     height:'100%'
@@ -27,7 +26,53 @@ store.subscribe(function () {
 });
 let arrData = [],
     assginArrData = [],
-    tmpArrData = [];
+    tmpArrData = [],
+    userId = 0,
+    isInit = true;
+if(decodeURI(window.location.href).indexOf('?') !== -1){
+    console.log(decodeURI(window.location.href))
+    console.log(userId)
+    userId = JSON.parse(decodeURI(window.location.href).substring(decodeURI(window.location.href).indexOf('?')+1,decodeURI(window.location.href).length)).id
+}
+//fetch请求
+function getFetchData(url,arg,acData) {
+    if('fetch' in window){
+        fetch(url,{
+            method:'POST',
+            // mode:'no-cors',
+            credentials: "include",
+            headers:{
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:arg
+        }).then((response)=>{console.log(response);return response.json()})
+            .then((data)=>{
+            console.log(data)
+                if (acData == 1){
+                    arrData = tmpArrData = data.result;
+                    store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
+                }else if(acData == 2){
+                    assginArrData = data.result;
+                    // console.log('fetch'+acData+':'+isInit)
+                    if(!isInit){
+                        assginArrData = tmpArrData = data.result;
+                        store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
+                    }
+                }else {
+                    message.error('错误类型');
+                    return ;
+                }
+            }).catch(err=>console.log(err))
+    }
+}
+
+console.log('href:'+userId)
+
+export function updateData() {
+    if(userId){
+        getFetchData('/task/assignList','assignUserId='+userId,2); //2代表我分配的任务
+    }
+}
 
 class HomeLayout extends React.Component {
     /*componentDidMount(){
@@ -35,58 +80,34 @@ class HomeLayout extends React.Component {
         console.log(args)
     }*/
     componentWillMount(){
-        console.log('home:'+document.cookie);
-        let str = 'userId='+JSON.parse(decodeURI(this.props.location.search.substring(1))).id;
-        console.log(str);
-        function getFetchData(url,arg,acData) {
-            if('fetch' in window){
-                fetch(url,{
-                    method:'POST',
-                    // mode:'no-cors',
-                    credentials: "include",
-                    headers:{
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body:arg
-                }).then((response)=>response.json())
-                    .then((data)=>{
-                        if (acData == 1){
-                            arrData = tmpArrData = data.result;
-                            store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:state.homeState.currentTask,finished:0}})
-                        }else if(acData == 2){
-                            assginArrData = tmpArrData = data.result;
-                        }else {
-                            message.error('错误类型');
-                            return ;
-                        }
-                    }).catch(err=>console.log(err))
-            }
-        }
-        getFetchData('/task/list',str,1); //1代表我的任务
-        str = 'assignUserId='+JSON.parse(decodeURI(this.props.location.search.substring(1))).id;
-        getFetchData('/task/assignList',str,2); //2代表我分配的任务
+        userId = JSON.parse(decodeURI(this.props.location.search.substring(1))).id;
+        getFetchData('/task/list','userId='+userId,1); //1代表我的任务
+        getFetchData('/task/assignList','assignUserId='+userId,2); //2代表我分配的任务
+        // console.log('init:'+isInit)
+        setTimeout(function () {
+            isInit = false;
+        },1000)
+
 
     }
     constructor(props){
         super(props)
-        // this.handleTask = this.handleTask.bind(this)
     }
     onClickHandle = (e) => {
         //如果每次要刷新工作状态在这里需要再次请求数据
         // console.log(e)
         if(e.key === '1'){
-            tmpArrData = arrData;
+            getFetchData('/task/list','userId='+userId,1); //1代表我的任务
+            // tmpArrData = arrData;
         } else if(e.key === '2'){
-            tmpArrData = assginArrData;
+            getFetchData('/task/assignList','assignUserId='+userId,2); //2代表我分配的任务
+            // tmpArrData = assginArrData;
         }
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:e.key,currentTask:0,finished:state.homeState.finished}})
-        // console.log(state.homeState.key)
     };
     handleTask=(value)=>{
         console.log('arg:'+value)
-        // this.setState(Object.assign({},this.state,{currentTask:index.toString(),finished:bool}))
         store.dispatch({type:CONSTANT.TASKKEY,val:{key:state.homeState.key,currentTask:value,finished:value.isComplete}})
-        // console.log(state.homeState.currentTask+' '+state.homeState.key)
 
     };
     onClickBtnHandle=(bool,key)=>{
