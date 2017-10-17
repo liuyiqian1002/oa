@@ -12,17 +12,17 @@ class TaskCards extends React.Component{
         // console.log(this.props.arrData)
          return (
             <div style={{width:'90%',textAlign:'center'}}>
-                <Row gutter={16}>
+                <Row gutter={24}>
                     {(this.props.arrData).map((value,index) => {
                         // console.log(value)
                         return (
-                            <div key={index} onClick={()=>this.props.handleTask(value)}>
+                            <div key={index}>
                                 <Col span={4}>
-                                    <a>
-                                    <Card title={value.title} style={cardStyle} className={'complete_'+value.isComplete}>
+                                    <div onClick={()=>this.props.handleTask(value)}>
+                                    <Card title={value.title} style={Object.assign({},cardStyle,{cursor:'pointer'})} className={'complete_'+value.isComplete}>
                                         <p>{value.content}</p>
                                     </Card>
-                                    </a>
+                                    </div>
                                 </Col>
                                 {index !== 0 && (index+1) % 6 == 0 && <div>&nbsp;</div>}
                             </div>)
