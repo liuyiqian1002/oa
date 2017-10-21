@@ -110,10 +110,10 @@
 
 # 部分图片
 我的任务
-![](https://github.com/Larryliuy/backgroundMS/blob/master/screenshots/userList.png)
+![](https://github.com/Larryliuy/oa/tree/master/screenshots/myTask.png)
 我的分配
-![](https://github.com/Larryliuy/backgroundMS/blob/master/screenshots/userList.png)
+![](https://github.com/Larryliuy/oa/tree/master/screenshots/allocate.png)
 审批
-![](https://github.com/Larryliuy/backgroundMS/blob/master/screenshots/userList.png)
+![](https://github.com/Larryliuy/oa/tree/master/screenshots/approval.png)
 操作记录
-![](https://github.com/Larryliuy/backgroundMS/blob/master/screenshots/userList.png)
+![](https://github.com/Larryliuy/oa/tree/master/screenshots/record.png)
