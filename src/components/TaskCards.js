@@ -29,7 +29,7 @@ class TaskCards extends React.Component{
                     })}
                 </Row>
                 <br/><br/><br/><br/>
-                <Pagination defaultCurrent={1} total={50}></Pagination>
+                {/*<Pagination defaultCurrent={1} total={50}></Pagination>*/}
             </div>
          )
     }

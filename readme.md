@@ -56,3 +56,13 @@ oa办公系统
 
 2017.10.17
 优化任务列表页鼠标显示以及修复任务右侧点击范围扩大bug
+
+
+我的任务
+![](https://github.com/Larryliuy/backgroundMS/blob/master/screenshots/myTask.png)
+我的分配
+![](https://github.com/Larryliuy/backgroundMS/blob/master/screenshots/allocate.png)
+审批
+![](https://github.com/Larryliuy/backgroundMS/blob/master/screenshots/approval.png)
+操作记录
+![](https://github.com/Larryliuy/backgroundMS/blob/master/screenshots/record.png)

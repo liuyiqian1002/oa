@@ -197,7 +197,7 @@ class HomeLayout extends React.Component {
                             </Breadcrumb.Item>
                             <Breadcrumb.Item>{state.homeState.currentTask.title}</Breadcrumb.Item>
                         </Breadcrumb>}
-                        {state.homeState.currentTask === 0 && state.homeState.key !== '4' &&
+                        {state.homeState.currentTask === 0 && state.homeState.key !== '3' && state.homeState.key !== '4' &&
                         <div style={{float:'right'}}>
                             <Button type='default'
                                     onClick={()=>this.onClickBtnHandleAll()}>
